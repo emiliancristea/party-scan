@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
 
-        body {
+html, body {
             font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             /* Fallback solid color for older browsers */
             background-color: #1a1a1a !important;
@@ -25,7 +25,7 @@
             color: #ffffff !important;
             position: relative;
             overflow-x: hidden;
-            padding: 15px 10px;
+            padding: 0;
         }
 
         body::before {
@@ -45,7 +45,7 @@
 
         .container {
             text-align: center;
-            padding: 25px 20px;
+            padding: 25px 0;
             max-width: 100%;
             width: 100%;
             max-width: 420px;
@@ -100,7 +100,7 @@
         
         /* Force dark theme for browsers with forced colors */
         @media (forced-colors: active) {
-            body {
+            html, body {
                 background-color: #1a1a1a !important;
                 color: white !important;
             }
@@ -120,9 +120,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
         
-        .no-backdrop-filter .scanner-container {
-            background: rgba(30, 30, 30, 0.9) !important;
-        }
         
         .no-backdrop-filter .btn {
             background: rgba(60, 60, 60, 0.9) !important;
@@ -130,7 +127,7 @@
         }
         
         /* Fallback styles for browsers without gradient support */
-        .no-gradients body {
+        .no-gradients html, body {
             background-color: #1a1a1a !important;
             background-image: none !important;
         }
@@ -161,12 +158,6 @@
             margin: 0 auto 25px;
             border-radius: 16px;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         #video {
@@ -425,26 +416,22 @@
         }
 
         .footer {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 15px;
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
             text-align: center;
-            z-index: 10;
             max-width: 90%;
         }
 
         /* Desktop optimization */
         @media (min-width: 481px) {
-            body {
+            html, body {
                 justify-content: center;
-                padding: 20px;
+                padding: 0;
             }
             
             .container {
-                padding: 35px;
+                padding: 35px 0;
                 max-width: 480px;
                 margin-top: 0;
             }
@@ -512,8 +499,8 @@
             }
             
             .footer {
-                bottom: 20px;
                 font-size: 0.85rem;
+                margin-top: 20px;
             }
         }
 
@@ -568,11 +555,10 @@
         </div>
 
         <div class="status" id="status">Click "Start Scanner" to begin</div>
-    </div>
-
     <div class="footer">
         Made by Cristea Emilian
     </div>
+</div>
 
     <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
     <script>
