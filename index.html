@@ -45,7 +45,7 @@ html, body {
 
         .container {
             text-align: center;
-            padding: 25px 20px;
+            padding: 25px 0;
             max-width: 100%;
             width: 100%;
             max-width: 420px;
@@ -120,9 +120,6 @@ html, body {
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
         
-        .no-backdrop-filter .scanner-container {
-            background: rgba(30, 30, 30, 0.9) !important;
-        }
         
         .no-backdrop-filter .btn {
             background: rgba(60, 60, 60, 0.9) !important;
@@ -161,12 +158,6 @@ html, body {
             margin: 0 auto 25px;
             border-radius: 16px;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         #video {
@@ -425,14 +416,10 @@ html, body {
         }
 
         .footer {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 15px;
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
             text-align: center;
-            z-index: 10;
             max-width: 90%;
         }
 
@@ -444,7 +431,7 @@ html, body {
             }
             
             .container {
-                padding: 35px;
+                padding: 35px 0;
                 max-width: 480px;
                 margin-top: 0;
             }
@@ -512,8 +499,8 @@ html, body {
             }
             
             .footer {
-                bottom: 20px;
                 font-size: 0.85rem;
+                margin-top: 20px;
             }
         }
 
@@ -568,11 +555,10 @@ html, body {
         </div>
 
         <div class="status" id="status">Click "Start Scanner" to begin</div>
-    </div>
-
     <div class="footer">
         Made by Cristea Emilian
     </div>
+</div>
 
     <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
     <script>
