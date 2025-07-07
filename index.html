@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
 
-        body {
+html, body {
             font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             /* Fallback solid color for older browsers */
             background-color: #1a1a1a !important;
@@ -25,7 +25,7 @@
             color: #ffffff !important;
             position: relative;
             overflow-x: hidden;
-            padding: 15px 10px;
+            padding: 0;
         }
 
         body::before {
@@ -45,7 +45,7 @@
 
         .container {
             text-align: center;
-            padding: 25px 20px;
+            padding: 25px 0;
             max-width: 100%;
             width: 100%;
             max-width: 420px;
@@ -100,7 +100,7 @@
         
         /* Force dark theme for browsers with forced colors */
         @media (forced-colors: active) {
-            body {
+            html, body {
                 background-color: #1a1a1a !important;
                 color: white !important;
             }
@@ -120,9 +120,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
         }
         
-        .no-backdrop-filter .scanner-container {
-            background: rgba(30, 30, 30, 0.9) !important;
-        }
         
         .no-backdrop-filter .btn {
             background: rgba(60, 60, 60, 0.9) !important;
@@ -130,7 +127,7 @@
         }
         
         /* Fallback styles for browsers without gradient support */
-        .no-gradients body {
+        .no-gradients html, body {
             background-color: #1a1a1a !important;
             background-image: none !important;
         }
@@ -161,12 +158,6 @@
             margin: 0 auto 25px;
             border-radius: 16px;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         #video {
@@ -425,26 +416,22 @@
         }
 
         .footer {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 15px;
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
             text-align: center;
-            z-index: 10;
             max-width: 90%;
         }
 
         /* Desktop optimization */
         @media (min-width: 481px) {
-            body {
+            html, body {
                 justify-content: center;
-                padding: 20px;
+                padding: 0;
             }
             
             .container {
-                padding: 35px;
+                padding: 35px 0;
                 max-width: 480px;
                 margin-top: 0;
             }
@@ -512,8 +499,8 @@
             }
             
             .footer {
-                bottom: 20px;
                 font-size: 0.85rem;
+                margin-top: 20px;
             }
         }
 
@@ -568,11 +555,10 @@
         </div>
 
         <div class="status" id="status">Click "Start Scanner" to begin</div>
-    </div>
-
     <div class="footer">
         Made by Cristea Emilian
     </div>
+</div>
 
     <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
     <script>
@@ -595,201 +581,104 @@
                 // Pre-set list of valid event codes
                 // In a real-world scenario, this should be fetched from a server
                 this.validCodes = new Set([
-                    'LA-MJT-1-8XKD',
-                    'LA-MJT-1-J7UQ',
-                    'LA-MJT-1-T9Z3',
-                    'LA-MJT-1-GH5N',
-                    'LA-MJT-1-ML1P',
-                    'LA-MJT-1-02KR',
-                    'LA-MJT-1-A8XW',
-                    'LA-MJT-1-KJD3',
-                    'LA-MJT-1-RV5L',
-                    'LA-MJT-1-Z7NY',
-                    'LA-MJT-1-XQP9',
-                    'LA-MJT-1-W4AM',
-                    'LA-MJT-1-C5JX',
-                    'LA-MJT-1-YP62',
-                    'LA-MJT-1-FKVR',
-                    'LA-MJT-1-03QL',
-                    'LA-MJT-1-9H2E',
-                    'LA-MJT-1-BT6N',
-                    'LA-MJT-1-J8WP',
-                    'LA-MJT-1-5KAY',
-                    'LA-MJT-1-QN2V',
-                    'LA-MJT-1-Z1JU',
-                    'LA-MJT-1-KME3',
-                    'LA-MJT-1-XD79',
-                    'LA-MJT-1-WF6P',
-                    'LA-MJT-1-M3C8',
-                    'LA-MJT-1-EVQ0',
-                    'LA-MJT-1-N9YR',
-                    'LA-MJT-1-PX4H',
-                    'LA-MJT-1-AKDZ',
-                    'LA-MJT-1-6UQ2',
-                    'LA-MJT-1-GHMX',
-                    'LA-MJT-1-T37N',
-                    'LA-MJT-1-VJ9W',
-                    'LA-MJT-1-PLR6',
-                    'LA-MJT-1-RC0B',
-                    'LA-MJT-1-LKYJ',
-                    'LA-MJT-1-W93F',
-                    'LA-MJT-1-MT27',
-                    'LA-MJT-1-BU5V',
-                    'LA-MJT-1-NGXP',
-                    'LA-MJT-1-KV1Z',
-                    'LA-MJT-1-X4JU',
-                    'LA-MJT-1-CQEZ',
-                    'LA-MJT-1-FJTM',
-                    'LA-MJT-1-JNU1',
-                    'LA-MJT-1-A73W',
-                    'LA-MJT-1-5XKD',
-                    'LA-MJT-1-TZPV',
-                    'LA-MJT-1-2QYH',
-                    'LA-MJT-1-MU80',
-                    'LA-MJT-1-WX1N',
-                    'LA-MJT-1-ZR93',
-                    'LA-MJT-1-GHPK',
-                    'LA-MJT-1-9J6C',
-                    'LA-MJT-1-K2FZ',
-                    'LA-MJT-1-XVTM',
-                    'LA-MJT-1-8L0J',
-                    'LA-MJT-1-EQ72',
-                    'LA-MJT-1-PWXA',
-                    'LA-MJT-1-YR49',
-                    'LA-MJT-1-R8NU',
-                    'LA-MJT-1-V35K',
-                    'LA-MJT-1-J0LM',
-                    'LA-MJT-1-BQF3',
-                    'LA-MJT-1-MXN9',
-                    'LA-MJT-1-N12E',
-                    'LA-MJT-1-KG6Y',
-                    'LA-MJT-1-ZJ4V',
-                    'LA-MJT-1-TWR8',
-                    'LA-MJT-1-XH9U',
-                    'LA-MJT-1-FQKP',
-                    'LA-MJT-1-AW52',
-                    'LA-MJT-1-P7YJ',
-                    'LA-MJT-1-M0C3',
-                    'LA-MJT-1-WXNB',
-                    'LA-MJT-1-YVZQ',
-                    'LA-MJT-1-E93T',
-                    'LA-MJT-1-5KLD',
-                    'LA-MJT-1-VU3J',
-                    'LA-MJT-1-RQX4',
-                    'LA-MJT-1-NFA6',
-                    'LA-MJT-1-CPZB',
-                    'LA-MJT-1-G7YM',
-                    'LA-MJT-1-T8Q9',
-                    'LA-MJT-1-ZV6W',
-                    'LA-MJT-1-JWAX',
-                    'LA-MJT-1-M9F1',
-                    'LA-MJT-1-XTRK',
-                    'LA-MJT-1-B42U',
-                    'LA-MJT-1-KP5C',
-                    'LA-MJT-1-9MVE',
-                    'LA-MJT-1-AW0L',
-                    'LA-MJT-1-QYP3',
-                    'LA-MJT-1-RN6D',
-                    'LA-MJT-1-W43Z',
-                    'LA-MJT-1-FMKU',
-                    'LA-MJT-1-X0V9',
-                    'LA-MJT-1-T6YB',
-                    'LA-MJT-1-CZPU',
-                    'LA-MJT-1-YK71',
-                    'LA-MJT-1-GFAE',
-                    'LA-MJT-1-MVJX',
-                    'LA-MJT-1-PQ20',
-                    'LA-MJT-1-JZHB',
-                    'LA-MJT-1-LK59',
-                    'LA-MJT-1-NWP3',
-                    'LA-MJT-1-XRV4',
-                    'LA-MJT-1-BQKA',
-                    'LA-MJT-1-8FGT',
-                    'LA-MJT-1-KMZ2',
-                    'LA-MJT-1-5VCX',
-                    'LA-MJT-1-G0LJ',
-                    'LA-MJT-1-RAN9',
-                    'LA-MJT-1-WJQX',
-                    'LA-MJT-1-MK71',
-                    'LA-MJT-1-PX8V',
-                    'LA-MJT-1-JLZ3',
-                    'LA-MJT-1-YKQ2',
-                    'LA-MJT-1-VUHP',
-                    'LA-MJT-1-XCF6',
-                    'LA-MJT-1-T02J',
-                    'LA-MJT-1-KAPD',
-                    'LA-MJT-1-ZG93',
-                    'LA-MJT-1-FQXE',
-                    'LA-MJT-1-RYM1',
-                    'LA-MJT-1-LW8T',
-                    'LA-MJT-1-PZ4N',
-                    'LA-MJT-1-XTJG',
-                    'LA-MJT-1-MC7Y',
-                    'LA-MJT-1-KBQU',
-                    'LA-MJT-1-YR08',
-                    'LA-MJT-1-W6LX',
-                    'LA-MJT-1-TN2K',
-                    'LA-MJT-1-JF9M',
-                    'LA-MJT-1-AWZU',
-                    'LA-MJT-1-8PQB',
-                    'LA-MJT-1-N7EC',
-                    'LA-MJT-1-C4MD',
-                    'LA-MJT-1-Z9YP',
-                    'LA-MJT-1-XFJK',
-                    'LA-MJT-1-V0A1',
-                    'LA-MJT-1-GKZ8',
-                    'LA-MJT-1-KPNX',
-                    'LA-MJT-1-RQLJ',
-                    'LA-MJT-1-Y8W7',
-                    'LA-MJT-1-MTF3',
-                    'LA-MJT-1-BX9V',
-                    'LA-MJT-1-T5NE',
-                    'LA-MJT-1-WFZK',
-                    'LA-MJT-1-NX3U',
-                    'LA-MJT-1-KYHC',
-                    'LA-MJT-1-QAW9',
-                    'LA-MJT-1-Z2MP',
-                    'LA-MJT-1-XUL4',
-                    'LA-MJT-1-9JRV',
-                    'LA-MJT-1-PD6Q',
-                    'LA-MJT-1-CW78',
-                    'LA-MJT-1-RXMA',
-                    'LA-MJT-1-MJQ2',
-                    'LA-MJT-1-W9KU',
-                    'LA-MJT-1-LYX5',
-                    'LA-MJT-1-YU43',
-                    'LA-MJT-1-TBKX',
-                    'LA-MJT-1-A7M0',
-                    'LA-MJT-1-FVJ2',
-                    'LA-MJT-1-XKQD',
-                    'LA-MJT-1-KP19',
-                    'LA-MJT-1-BW6E',
-                    'LA-MJT-1-QX7N',
-                    'LA-MJT-1-R7FU',
-                    'LA-MJT-1-MLAG',
-                    'LA-MJT-1-NYX0',
-                    'LA-MJT-1-GC4Z',
-                    'LA-MJT-1-ZJTK',
-                    'LA-MJT-1-KRD5',
-                    'LA-MJT-1-XYQ7',
-                    'LA-MJT-1-V6WP',
-                    'LA-MJT-1-F9UC',
-                    'LA-MJT-1-YPN3',
-                    'LA-MJT-1-J2XE',
-                    'LA-MJT-1-MV0B',
-                    'LA-MJT-1-WQJ9',
-                    'LA-MJT-1-TLUX',
-                    'LA-MJT-1-RP8A',
-                    'LA-MJT-1-K3YT',
-                    'LA-MJT-1-ZW5C',
-                    'LA-MJT-1-N49J',
-                    'LA-MJT-1-X6FK',
-                    'LA-MJT-1-YGRV',
-                    'LA-MJT-1-MPT2',
-                    'LA-MJT-1-LK38',
-                    'LA-MJT-1-C7WD',
-                    'LA-MJT-1-QVAJ',
-                    'LA-MJT-1-W29X'
+                    'LA-MISTO-1-X7KJ',
+                    'LA-MISTO-1-9QZP',
+                    'LA-MISTO-1-A6TD',
+                    'LA-MISTO-1-FY3X',
+                    'LA-MISTO-1-KD1M',
+                    'LA-MISTO-1-ZP84',
+                    'LA-MISTO-1-TCJN',
+                    'LA-MISTO-1-LV62',
+                    'LA-MISTO-1-W0QB',
+                    'LA-MISTO-1-BKX5',
+                    'LA-MISTO-1-YU93',
+                    'LA-MISTO-1-27VF',
+                    'LA-MISTO-1-RPLD',
+                    'LA-MISTO-1-GAMQ',
+                    'LA-MISTO-1-C59N',
+                    'LA-MISTO-1-EX0W',
+                    'LA-MISTO-1-VYMK',
+                    'LA-MISTO-1-MR3C',
+                    'LA-MISTO-1-H5ZT',
+                    'LA-MISTO-1-NLJ9',
+                    'LA-MISTO-1-XF84',
+                    'LA-MISTO-1-A7WY',
+                    'LA-MISTO-1-PD03',
+                    'LA-MISTO-1-ZLMX',
+                    'LA-MISTO-1-KRQ2',
+                    'LA-MISTO-1-TN1V',
+                    'LA-MISTO-1-U8BC',
+                    'LA-MISTO-1-9JKP',
+                    'LA-MISTO-1-FCV7',
+                    'LA-MISTO-1-BYWX',
+                    'LA-MISTO-1-WKZ1',
+                    'LA-MISTO-1-ER5M',
+                    'LA-MISTO-1-H2LT',
+                    'LA-MISTO-1-LXQN',
+                    'LA-MISTO-1-JG39',
+                    'LA-MISTO-1-YTMF',
+                    'LA-MISTO-1-VZ06',
+                    'LA-MISTO-1-C43A',
+                    'LA-MISTO-1-MWUX',
+                    'LA-MISTO-1-NE7K',
+                    'LA-MISTO-1-X0DV',
+                    'LA-MISTO-1-ZRC3',
+                    'LA-MISTO-1-GYAL',
+                    'LA-MISTO-1-7FNP',
+                    'LA-MISTO-1-PA8D',
+                    'LA-MISTO-1-TLQW',
+                    'LA-MISTO-1-FJ6Y',
+                    'LA-MISTO-1-UD1C',
+                    'LA-MISTO-1-9ZBX',
+                    'LA-MISTO-1-KPVE',
+                    'LA-MISTO-1-MTR2',
+                    'LA-MISTO-1-X93W',
+                    'LA-MISTO-1-W5AJ',
+                    'LA-MISTO-1-YDZ6',
+                    'LA-MISTO-1-0RKL',
+                    'LA-MISTO-1-LG3X',
+                    'LA-MISTO-1-VUC1',
+                    'LA-MISTO-1-NJYP',
+                    'LA-MISTO-1-BX0F',
+                    'LA-MISTO-1-GEW4',
+                    'LA-MISTO-1-Z2QT',
+                    'LA-MISTO-1-H95C',
+                    'LA-MISTO-1-RXLA',
+                    'LA-MISTO-1-JK67',
+                    'LA-MISTO-1-PTYN',
+                    'LA-MISTO-1-F1XU',
+                    'LA-MISTO-1-CMQ3',
+                    'LA-MISTO-1-AZK7',
+                    'LA-MISTO-1-8WYV',
+                    'LA-MISTO-1-YX2D',
+                    'LA-MISTO-1-T09B',
+                    'LA-MISTO-1-MLJF',
+                    'LA-MISTO-1-XKU1',
+                    'LA-MISTO-1-V93E',
+                    'LA-MISTO-1-DNQ8',
+                    'LA-MISTO-1-WGF5',
+                    'LA-MISTO-1-R71Z',
+                    'LA-MISTO-1-ZUCN',
+                    'LA-MISTO-1-JM6T',
+                    'LA-MISTO-1-PXEB',
+                    'LA-MISTO-1-GLY2',
+                    'LA-MISTO-1-KOFD',
+                    'LA-MISTO-1-4QZX',
+                    'LA-MISTO-1-9VRW',
+                    'LA-MISTO-1-HC13',
+                    'LA-MISTO-1-N7XY',
+                    'LA-MISTO-1-FW0A',
+                    'LA-MISTO-1-TJZ4',
+                    'LA-MISTO-1-MXPB',
+                    'LA-MISTO-1-BL2N',
+                    'LA-MISTO-1-YRQ7',
+                    'LA-MISTO-1-CZUM',
+                    'LA-MISTO-1-X15K',
+                    'LA-MISTO-1-K93L',
+                    'LA-MISTO-1-WAZF',
+                    'LA-MISTO-1-LUPE',
+                    'LA-MISTO-1-JTD3',
+                    'LA-MISTO-1-VKX9'
                 ]);
                 
                 // Track used codes
