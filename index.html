@@ -13,13 +13,16 @@
 
         body {
             font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #0f0f0f 100%);
+            /* Fallback solid color for older browsers */
+            background-color: #1a1a1a !important;
+            /* Modern gradient for supported browsers */
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #0f0f0f 100%) !important;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            color: #ffffff;
+            color: #ffffff !important;
             position: relative;
             overflow-x: hidden;
             padding: 15px 10px;
@@ -46,8 +49,12 @@
             max-width: 100%;
             width: 100%;
             max-width: 420px;
-            background: rgba(255, 255, 255, 0.05);
+            /* Fallback solid background for browsers that don't support backdrop-filter */
+            background-color: rgba(40, 40, 40, 0.9) !important;
+            /* Modern semi-transparent background for supported browsers */
+            background: rgba(255, 255, 255, 0.05) !important;
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); /* Safari support */
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 
@@ -79,6 +86,9 @@
             font-size: 2rem;
             margin-bottom: 10px;
             font-weight: 700;
+            /* Fallback color for browsers that don't support gradient text */
+            color: #ffffff !important;
+            /* Modern gradient text for supported browsers */
             background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -86,6 +96,55 @@
             text-shadow: none;
             letter-spacing: -0.02em;
             line-height: 1.2;
+        }
+        
+        /* Force dark theme for browsers with forced colors */
+        @media (forced-colors: active) {
+            body {
+                background-color: #1a1a1a !important;
+                color: white !important;
+            }
+            .container {
+                background-color: #2a2a2a !important;
+                border: 1px solid #555 !important;
+            }
+            .header h1 {
+                color: white !important;
+                -webkit-text-fill-color: white !important;
+            }
+        }
+        
+        /* Fallback styles for browsers without backdrop-filter support */
+        .no-backdrop-filter .container {
+            background: rgba(40, 40, 40, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+        
+        .no-backdrop-filter .scanner-container {
+            background: rgba(30, 30, 30, 0.9) !important;
+        }
+        
+        .no-backdrop-filter .btn {
+            background: rgba(60, 60, 60, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        /* Fallback styles for browsers without gradient support */
+        .no-gradients body {
+            background-color: #1a1a1a !important;
+            background-image: none !important;
+        }
+        
+        .no-gradients .header h1 {
+            background: none !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        
+        /* Additional forced colors mode fixes */
+        .forced-colors-mode * {
+            color: white !important;
+            background-color: #1a1a1a !important;
         }
 
         .header p {
@@ -896,8 +955,47 @@
             }
         }
         
+        // Browser compatibility diagnostic
+        function checkBrowserSupport() {
+            const features = {
+                'backdrop-filter': CSS.supports('backdrop-filter', 'blur(10px)'),
+                'gradients': CSS.supports('background', 'linear-gradient(90deg, red, blue)'),
+                'rgba': CSS.supports('background-color', 'rgba(0,0,0,0.5)'),
+                'forced-colors': window.matchMedia('(forced-colors: active)').matches,
+                'high-contrast': window.matchMedia('(prefers-contrast: high)').matches,
+                'color-scheme': window.matchMedia('(prefers-color-scheme: dark)').matches
+            };
+            
+            console.log('Browser Feature Support:', features);
+            
+            // If backdrop-filter isn't supported, add fallback class
+            if (!features['backdrop-filter']) {
+                document.body.classList.add('no-backdrop-filter');
+            }
+            
+            // If gradients aren't supported, add fallback class
+            if (!features['gradients']) {
+                document.body.classList.add('no-gradients');
+            }
+            
+            // Check if forced colors is causing issues
+            if (features['forced-colors']) {
+                console.warn('Forced colors mode detected - this may override custom styles');
+                document.body.classList.add('forced-colors-mode');
+            }
+            
+            // Debug: Log computed styles
+            const body = document.body;
+            const computedStyle = window.getComputedStyle(body);
+            console.log('Body background-color:', computedStyle.backgroundColor);
+            console.log('Body color:', computedStyle.color);
+            
+            return features;
+        }
+        
         // Initialize the scanner when the page loads
         document.addEventListener('DOMContentLoaded', () => {
+            checkBrowserSupport();
             new QRCodeScanner();
         });
     </script>
