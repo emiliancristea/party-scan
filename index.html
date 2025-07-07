@@ -111,6 +111,21 @@
             height: 300px;
             object-fit: cover;
             display: block;
+            background: #000000;
+        }
+
+        #video.loading {
+            background: radial-gradient(circle, #333333 0%, #000000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #video.loading::before {
+            content: '🎥 Loading camera...';
+            color: white;
+            font-size: 16px;
+            text-align: center;
         }
 
         .scanner-overlay {
@@ -645,11 +660,22 @@
                 this.startBtn.addEventListener('click', () => this.startScanning());
                 this.stopBtn.addEventListener('click', () => this.stopScanning());
                 
+                // Check HTTPS requirement
+                if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                    this.showError('Camera access requires HTTPS. Please use https:// or localhost.');
+                    return;
+                }
+                
                 // Check if the browser supports getUserMedia
                 if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                     this.showError('Camera access is not supported in this browser.');
                     return;
                 }
+
+                // Add debugging info
+                console.log('Browser support check passed');
+                console.log('Protocol:', location.protocol);
+                console.log('Navigator mediaDevices:', !!navigator.mediaDevices);
             }
             
             async startScanning() {
