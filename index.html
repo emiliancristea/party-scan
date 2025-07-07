@@ -1,4 +1,4 @@
-THIS SHOULD BE A LINTER ERROR<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -952,7 +952,12 @@ html, body {
                     this.startBtn.style.display = 'none';
                     this.stopBtn.style.display = 'inline-block';
                     this.scannerBox.classList.add('scanning');
-                    this.updateStatus('Scanning for QR codes...');
+                    this.updateStatus('Scanning for patterns...');
+                    
+                    // Reset detection state
+                    this.detectionState = 'idle';
+                    this.circleDetectionBuffer = [];
+                    this.qrProcessingEnabled = false;
                     
                     this.scan();
                 } catch (err) {
@@ -976,9 +981,16 @@ html, body {
                 this.video.srcObject = null;
                 this.startBtn.style.display = 'inline-block';
                 this.stopBtn.style.display = 'none';
-                this.scannerBox.classList.remove('scanning');
+                this.scannerBox.classList.remove('scanning', 'circle-detected', 'qr-detected');
+                this.loadingOverlay.classList.remove('active');
+                this.detectionStatus.classList.remove('visible', 'circle', 'qr');
                 this.updateStatus('Scanner stopped. Click "Start Scanner" to begin.');
                 this.hideMessage();
+                
+                // Reset detection state
+                this.detectionState = 'idle';
+                this.circleDetectionBuffer = [];
+                this.qrProcessingEnabled = false;
             }
             
             scan() {
@@ -1160,7 +1172,14 @@ html, body {
                     this.scanCooldown = false;
                     this.hideMessage();
                     if (this.isScanning) {
-                        this.updateStatus('Scanning for QR codes...');
+                        // Reset to circle detection mode
+                        this.qrProcessingEnabled = false;
+                        this.detectionState = 'idle';
+                        this.circleDetectionBuffer = [];
+                        this.scannerBox.classList.remove('circle-detected', 'qr-detected');
+                        this.loadingOverlay.classList.remove('active');
+                        this.detectionStatus.classList.remove('visible', 'circle', 'qr');
+                        this.updateStatus('Scanning for patterns...');
                     }
                 }, 2000);
             }
