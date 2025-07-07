@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Mijto 1 - Party Pre-Scale Scanner</title>
+    <title>Crypto 1 - Party Scale Scanner</title>
     <style>
         * {
             margin: 0;
@@ -150,6 +150,13 @@
                 0 0 20px rgba(255, 255, 255, 0.3),
                 inset 0 0 20px rgba(255, 255, 255, 0.1);
             animation: pulse 2s infinite;
+        }
+
+        .scanner-box.scanning {
+            border-color: rgba(120, 255, 120, 0.8);
+            box-shadow: 
+                0 0 30px rgba(120, 255, 120, 0.5),
+                inset 0 0 30px rgba(120, 255, 120, 0.2);
         }
 
         @keyframes pulse {
@@ -315,6 +322,18 @@
             left: 100%;
         }
 
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .btn:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.3);
+            outline-offset: 2px;
+        }
+
         .permission-denied {
             background: rgba(255, 107, 107, 0.1);
             backdrop-filter: blur(10px);
@@ -352,49 +371,108 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
             .container {
-                padding: 30px 20px;
-                margin: 20px;
+                padding: 25px 15px;
+                margin: 0;
+                border-radius: 20px;
+                max-width: 100%;
+            }
+            
+            .header {
+                margin-bottom: 25px;
             }
             
             .header h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
+                line-height: 1.2;
+                margin-bottom: 10px;
             }
             
             .header p {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
             
             .scanner-container {
-                max-width: 350px;
+                max-width: 100%;
+                margin-bottom: 25px;
             }
             
             #video {
-                height: 250px;
+                height: 280px;
+                border-radius: 16px;
             }
             
             .scanner-box {
-                width: 150px;
-                height: 150px;
+                width: 180px;
+                height: 180px;
+                border-radius: 12px;
             }
             
             .scanner-corners {
-                width: 150px;
-                height: 150px;
+                width: 180px;
+                height: 180px;
+            }
+            
+            .corner {
+                width: 16px;
+                height: 16px;
+                border-width: 2px;
+            }
+            
+            .message {
+                min-height: 60px;
+                margin-bottom: 15px;
             }
             
             .accepted, .rejected {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
+            }
+            
+            .btn {
+                padding: 14px 28px;
+                font-size: 0.95rem;
+                margin: 6px;
+                border-radius: 16px;
+                min-width: 140px;
+            }
+            
+            .status {
+                font-size: 0.9rem;
+                margin-top: 15px;
+            }
+            
+            .footer {
+                bottom: 10px;
+                font-size: 0.75rem;
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .scanner-box {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .scanner-corners {
+                width: 160px;
+                height: 160px;
             }
             
             .btn {
                 padding: 12px 24px;
                 font-size: 0.9rem;
-            }
-            
-            .footer {
-                bottom: 15px;
-                font-size: 0.8rem;
+                min-width: 120px;
             }
         }
     </style>
@@ -402,7 +480,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>� La Mijto 1 - Party Pre-Scale Scanner</h1>
+            <h1>Crypto 1 - Party Scale Scanner</h1>
             <p>Scan QR codes to validate event tickets</p>
         </div>
 
@@ -444,6 +522,7 @@
                 this.statusEl = document.getElementById('status');
                 this.startBtn = document.getElementById('startBtn');
                 this.stopBtn = document.getElementById('stopBtn');
+                this.scannerBox = document.querySelector('.scanner-box');
                 
                 this.isScanning = false;
                 this.stream = null;
@@ -453,201 +532,201 @@
                 // Pre-set list of valid event codes
                 // In a real-world scenario, this should be fetched from a server
                 this.validCodes = new Set([
-                    'LA-MJT-1-8XKD',
-                    'LA-MJT-1-J7UQ',
-                    'LA-MJT-1-T9Z3',
-                    'LA-MJT-1-GH5N',
-                    'LA-MJT-1-ML1P',
-                    'LA-MJT-1-02KR',
-                    'LA-MJT-1-A8XW',
-                    'LA-MJT-1-KJD3',
-                    'LA-MJT-1-RV5L',
-                    'LA-MJT-1-Z7NY',
-                    'LA-MJT-1-XQP9',
-                    'LA-MJT-1-W4AM',
-                    'LA-MJT-1-C5JX',
-                    'LA-MJT-1-YP62',
-                    'LA-MJT-1-FKVR',
-                    'LA-MJT-1-03QL',
-                    'LA-MJT-1-9H2E',
-                    'LA-MJT-1-BT6N',
-                    'LA-MJT-1-J8WP',
-                    'LA-MJT-1-5KAY',
-                    'LA-MJT-1-QN2V',
-                    'LA-MJT-1-Z1JU',
-                    'LA-MJT-1-KME3',
-                    'LA-MJT-1-XD79',
-                    'LA-MJT-1-WF6P',
-                    'LA-MJT-1-M3C8',
-                    'LA-MJT-1-EVQ0',
-                    'LA-MJT-1-N9YR',
-                    'LA-MJT-1-PX4H',
-                    'LA-MJT-1-AKDZ',
-                    'LA-MJT-1-6UQ2',
-                    'LA-MJT-1-GHMX',
-                    'LA-MJT-1-T37N',
-                    'LA-MJT-1-VJ9W',
-                    'LA-MJT-1-PLR6',
-                    'LA-MJT-1-RC0B',
-                    'LA-MJT-1-LKYJ',
-                    'LA-MJT-1-W93F',
-                    'LA-MJT-1-MT27',
-                    'LA-MJT-1-BU5V',
-                    'LA-MJT-1-NGXP',
-                    'LA-MJT-1-KV1Z',
-                    'LA-MJT-1-X4JU',
-                    'LA-MJT-1-CQEZ',
-                    'LA-MJT-1-FJTM',
-                    'LA-MJT-1-JNU1',
-                    'LA-MJT-1-A73W',
-                    'LA-MJT-1-5XKD',
-                    'LA-MJT-1-TZPV',
-                    'LA-MJT-1-2QYH',
-                    'LA-MJT-1-MU80',
-                    'LA-MJT-1-WX1N',
-                    'LA-MJT-1-ZR93',
-                    'LA-MJT-1-GHPK',
-                    'LA-MJT-1-9J6C',
-                    'LA-MJT-1-K2FZ',
-                    'LA-MJT-1-XVTM',
-                    'LA-MJT-1-8L0J',
-                    'LA-MJT-1-EQ72',
-                    'LA-MJT-1-PWXA',
-                    'LA-MJT-1-YR49',
-                    'LA-MJT-1-R8NU',
-                    'LA-MJT-1-V35K',
-                    'LA-MJT-1-J0LM',
-                    'LA-MJT-1-BQF3',
-                    'LA-MJT-1-MXN9',
-                    'LA-MJT-1-N12E',
-                    'LA-MJT-1-KG6Y',
-                    'LA-MJT-1-ZJ4V',
-                    'LA-MJT-1-TWR8',
-                    'LA-MJT-1-XH9U',
-                    'LA-MJT-1-FQKP',
-                    'LA-MJT-1-AW52',
-                    'LA-MJT-1-P7YJ',
-                    'LA-MJT-1-M0C3',
-                    'LA-MJT-1-WXNB',
-                    'LA-MJT-1-YVZQ',
-                    'LA-MJT-1-E93T',
-                    'LA-MJT-1-5KLD',
-                    'LA-MJT-1-VU3J',
-                    'LA-MJT-1-RQX4',
-                    'LA-MJT-1-NFA6',
-                    'LA-MJT-1-CPZB',
-                    'LA-MJT-1-G7YM',
-                    'LA-MJT-1-T8Q9',
-                    'LA-MJT-1-ZV6W',
-                    'LA-MJT-1-JWAX',
-                    'LA-MJT-1-M9F1',
-                    'LA-MJT-1-XTRK',
-                    'LA-MJT-1-B42U',
-                    'LA-MJT-1-KP5C',
-                    'LA-MJT-1-9MVE',
-                    'LA-MJT-1-AW0L',
-                    'LA-MJT-1-QYP3',
-                    'LA-MJT-1-RN6D',
-                    'LA-MJT-1-W43Z',
-                    'LA-MJT-1-FMKU',
-                    'LA-MJT-1-X0V9',
-                    'LA-MJT-1-T6YB',
-                    'LA-MJT-1-CZPU',
-                    'LA-MJT-1-YK71',
-                    'LA-MJT-1-GFAE',
-                    'LA-MJT-1-MVJX',
-                    'LA-MJT-1-PQ20',
-                    'LA-MJT-1-JZHB',
-                    'LA-MJT-1-LK59',
-                    'LA-MJT-1-NWP3',
-                    'LA-MJT-1-XRV4',
-                    'LA-MJT-1-BQKA',
-                    'LA-MJT-1-8FGT',
-                    'LA-MJT-1-KMZ2',
-                    'LA-MJT-1-5VCX',
-                    'LA-MJT-1-G0LJ',
-                    'LA-MJT-1-RAN9',
-                    'LA-MJT-1-WJQX',
-                    'LA-MJT-1-MK71',
-                    'LA-MJT-1-PX8V',
-                    'LA-MJT-1-JLZ3',
-                    'LA-MJT-1-YKQ2',
-                    'LA-MJT-1-VUHP',
-                    'LA-MJT-1-XCF6',
-                    'LA-MJT-1-T02J',
-                    'LA-MJT-1-KAPD',
-                    'LA-MJT-1-ZG93',
-                    'LA-MJT-1-FQXE',
-                    'LA-MJT-1-RYM1',
-                    'LA-MJT-1-LW8T',
-                    'LA-MJT-1-PZ4N',
-                    'LA-MJT-1-XTJG',
-                    'LA-MJT-1-MC7Y',
-                    'LA-MJT-1-KBQU',
-                    'LA-MJT-1-YR08',
-                    'LA-MJT-1-W6LX',
-                    'LA-MJT-1-TN2K',
-                    'LA-MJT-1-JF9M',
-                    'LA-MJT-1-AWZU',
-                    'LA-MJT-1-8PQB',
-                    'LA-MJT-1-N7EC',
-                    'LA-MJT-1-C4MD',
-                    'LA-MJT-1-Z9YP',
-                    'LA-MJT-1-XFJK',
-                    'LA-MJT-1-V0A1',
-                    'LA-MJT-1-GKZ8',
-                    'LA-MJT-1-KPNX',
-                    'LA-MJT-1-RQLJ',
-                    'LA-MJT-1-Y8W7',
-                    'LA-MJT-1-MTF3',
-                    'LA-MJT-1-BX9V',
-                    'LA-MJT-1-T5NE',
-                    'LA-MJT-1-WFZK',
-                    'LA-MJT-1-NX3U',
-                    'LA-MJT-1-KYHC',
-                    'LA-MJT-1-QAW9',
-                    'LA-MJT-1-Z2MP',
-                    'LA-MJT-1-XUL4',
-                    'LA-MJT-1-9JRV',
-                    'LA-MJT-1-PD6Q',
-                    'LA-MJT-1-CW78',
-                    'LA-MJT-1-RXMA',
-                    'LA-MJT-1-MJQ2',
-                    'LA-MJT-1-W9KU',
-                    'LA-MJT-1-LYX5',
-                    'LA-MJT-1-YU43',
-                    'LA-MJT-1-TBKX',
-                    'LA-MJT-1-A7M0',
-                    'LA-MJT-1-FVJ2',
-                    'LA-MJT-1-XKQD',
-                    'LA-MJT-1-KP19',
-                    'LA-MJT-1-BW6E',
-                    'LA-MJT-1-QX7N',
-                    'LA-MJT-1-R7FU',
-                    'LA-MJT-1-MLAG',
-                    'LA-MJT-1-NYX0',
-                    'LA-MJT-1-GC4Z',
-                    'LA-MJT-1-ZJTK',
-                    'LA-MJT-1-KRD5',
-                    'LA-MJT-1-XYQ7',
-                    'LA-MJT-1-V6WP',
-                    'LA-MJT-1-F9UC',
-                    'LA-MJT-1-YPN3',
-                    'LA-MJT-1-J2XE',
-                    'LA-MJT-1-MV0B',
-                    'LA-MJT-1-WQJ9',
-                    'LA-MJT-1-TLUX',
-                    'LA-MJT-1-RP8A',
-                    'LA-MJT-1-K3YT',
-                    'LA-MJT-1-ZW5C',
-                    'LA-MJT-1-N49J',
-                    'LA-MJT-1-X6FK',
-                    'LA-MJT-1-YGRV',
-                    'LA-MJT-1-MPT2',
-                    'LA-MJT-1-LK38',
-                    'LA-MJT-1-C7WD',
-                    'LA-MJT-1-QVAJ',
-                    'LA-MJT-1-W29X'
+                    'CRYPTO-1-8XKD',
+                    'CRYPTO-1-J7UQ',
+                    'CRYPTO-1-T9Z3',
+                    'CRYPTO-1-GH5N',
+                    'CRYPTO-1-ML1P',
+                    'CRYPTO-1-02KR',
+                    'CRYPTO-1-A8XW',
+                    'CRYPTO-1-KJD3',
+                    'CRYPTO-1-RV5L',
+                    'CRYPTO-1-Z7NY',
+                    'CRYPTO-1-XQP9',
+                    'CRYPTO-1-W4AM',
+                    'CRYPTO-1-C5JX',
+                    'CRYPTO-1-YP62',
+                    'CRYPTO-1-FKVR',
+                    'CRYPTO-1-03QL',
+                    'CRYPTO-1-9H2E',
+                    'CRYPTO-1-BT6N',
+                    'CRYPTO-1-J8WP',
+                    'CRYPTO-1-5KAY',
+                    'CRYPTO-1-QN2V',
+                    'CRYPTO-1-Z1JU',
+                    'CRYPTO-1-KME3',
+                    'CRYPTO-1-XD79',
+                    'CRYPTO-1-WF6P',
+                    'CRYPTO-1-M3C8',
+                    'CRYPTO-1-EVQ0',
+                    'CRYPTO-1-N9YR',
+                    'CRYPTO-1-PX4H',
+                    'CRYPTO-1-AKDZ',
+                    'CRYPTO-1-6UQ2',
+                    'CRYPTO-1-GHMX',
+                    'CRYPTO-1-T37N',
+                    'CRYPTO-1-VJ9W',
+                    'CRYPTO-1-PLR6',
+                    'CRYPTO-1-RC0B',
+                    'CRYPTO-1-LKYJ',
+                    'CRYPTO-1-W93F',
+                    'CRYPTO-1-MT27',
+                    'CRYPTO-1-BU5V',
+                    'CRYPTO-1-NGXP',
+                    'CRYPTO-1-KV1Z',
+                    'CRYPTO-1-X4JU',
+                    'CRYPTO-1-CQEZ',
+                    'CRYPTO-1-FJTM',
+                    'CRYPTO-1-JNU1',
+                    'CRYPTO-1-A73W',
+                    'CRYPTO-1-5XKD',
+                    'CRYPTO-1-TZPV',
+                    'CRYPTO-1-2QYH',
+                    'CRYPTO-1-MU80',
+                    'CRYPTO-1-WX1N',
+                    'CRYPTO-1-ZR93',
+                    'CRYPTO-1-GHPK',
+                    'CRYPTO-1-9J6C',
+                    'CRYPTO-1-K2FZ',
+                    'CRYPTO-1-XVTM',
+                    'CRYPTO-1-8L0J',
+                    'CRYPTO-1-EQ72',
+                    'CRYPTO-1-PWXA',
+                    'CRYPTO-1-YR49',
+                    'CRYPTO-1-R8NU',
+                    'CRYPTO-1-V35K',
+                    'CRYPTO-1-J0LM',
+                    'CRYPTO-1-BQF3',
+                    'CRYPTO-1-MXN9',
+                    'CRYPTO-1-N12E',
+                    'CRYPTO-1-KG6Y',
+                    'CRYPTO-1-ZJ4V',
+                    'CRYPTO-1-TWR8',
+                    'CRYPTO-1-XH9U',
+                    'CRYPTO-1-FQKP',
+                    'CRYPTO-1-AW52',
+                    'CRYPTO-1-P7YJ',
+                    'CRYPTO-1-M0C3',
+                    'CRYPTO-1-WXNB',
+                    'CRYPTO-1-YVZQ',
+                    'CRYPTO-1-E93T',
+                    'CRYPTO-1-5KLD',
+                    'CRYPTO-1-VU3J',
+                    'CRYPTO-1-RQX4',
+                    'CRYPTO-1-NFA6',
+                    'CRYPTO-1-CPZB',
+                    'CRYPTO-1-G7YM',
+                    'CRYPTO-1-T8Q9',
+                    'CRYPTO-1-ZV6W',
+                    'CRYPTO-1-JWAX',
+                    'CRYPTO-1-M9F1',
+                    'CRYPTO-1-XTRK',
+                    'CRYPTO-1-B42U',
+                    'CRYPTO-1-KP5C',
+                    'CRYPTO-1-9MVE',
+                    'CRYPTO-1-AW0L',
+                    'CRYPTO-1-QYP3',
+                    'CRYPTO-1-RN6D',
+                    'CRYPTO-1-W43Z',
+                    'CRYPTO-1-FMKU',
+                    'CRYPTO-1-X0V9',
+                    'CRYPTO-1-T6YB',
+                    'CRYPTO-1-CZPU',
+                    'CRYPTO-1-YK71',
+                    'CRYPTO-1-GFAE',
+                    'CRYPTO-1-MVJX',
+                    'CRYPTO-1-PQ20',
+                    'CRYPTO-1-JZHB',
+                    'CRYPTO-1-LK59',
+                    'CRYPTO-1-NWP3',
+                    'CRYPTO-1-XRV4',
+                    'CRYPTO-1-BQKA',
+                    'CRYPTO-1-8FGT',
+                    'CRYPTO-1-KMZ2',
+                    'CRYPTO-1-5VCX',
+                    'CRYPTO-1-G0LJ',
+                    'CRYPTO-1-RAN9',
+                    'CRYPTO-1-WJQX',
+                    'CRYPTO-1-MK71',
+                    'CRYPTO-1-PX8V',
+                    'CRYPTO-1-JLZ3',
+                    'CRYPTO-1-YKQ2',
+                    'CRYPTO-1-VUHP',
+                    'CRYPTO-1-XCF6',
+                    'CRYPTO-1-T02J',
+                    'CRYPTO-1-KAPD',
+                    'CRYPTO-1-ZG93',
+                    'CRYPTO-1-FQXE',
+                    'CRYPTO-1-RYM1',
+                    'CRYPTO-1-LW8T',
+                    'CRYPTO-1-PZ4N',
+                    'CRYPTO-1-XTJG',
+                    'CRYPTO-1-MC7Y',
+                    'CRYPTO-1-KBQU',
+                    'CRYPTO-1-YR08',
+                    'CRYPTO-1-W6LX',
+                    'CRYPTO-1-TN2K',
+                    'CRYPTO-1-JF9M',
+                    'CRYPTO-1-AWZU',
+                    'CRYPTO-1-8PQB',
+                    'CRYPTO-1-N7EC',
+                    'CRYPTO-1-C4MD',
+                    'CRYPTO-1-Z9YP',
+                    'CRYPTO-1-XFJK',
+                    'CRYPTO-1-V0A1',
+                    'CRYPTO-1-GKZ8',
+                    'CRYPTO-1-KPNX',
+                    'CRYPTO-1-RQLJ',
+                    'CRYPTO-1-Y8W7',
+                    'CRYPTO-1-MTF3',
+                    'CRYPTO-1-BX9V',
+                    'CRYPTO-1-T5NE',
+                    'CRYPTO-1-WFZK',
+                    'CRYPTO-1-NX3U',
+                    'CRYPTO-1-KYHC',
+                    'CRYPTO-1-QAW9',
+                    'CRYPTO-1-Z2MP',
+                    'CRYPTO-1-XUL4',
+                    'CRYPTO-1-9JRV',
+                    'CRYPTO-1-PD6Q',
+                    'CRYPTO-1-CW78',
+                    'CRYPTO-1-RXMA',
+                    'CRYPTO-1-MJQ2',
+                    'CRYPTO-1-W9KU',
+                    'CRYPTO-1-LYX5',
+                    'CRYPTO-1-YU43',
+                    'CRYPTO-1-TBKX',
+                    'CRYPTO-1-A7M0',
+                    'CRYPTO-1-FVJ2',
+                    'CRYPTO-1-XKQD',
+                    'CRYPTO-1-KP19',
+                    'CRYPTO-1-BW6E',
+                    'CRYPTO-1-QX7N',
+                    'CRYPTO-1-R7FU',
+                    'CRYPTO-1-MLAG',
+                    'CRYPTO-1-NYX0',
+                    'CRYPTO-1-GC4Z',
+                    'CRYPTO-1-ZJTK',
+                    'CRYPTO-1-KRD5',
+                    'CRYPTO-1-XYQ7',
+                    'CRYPTO-1-V6WP',
+                    'CRYPTO-1-F9UC',
+                    'CRYPTO-1-YPN3',
+                    'CRYPTO-1-J2XE',
+                    'CRYPTO-1-MV0B',
+                    'CRYPTO-1-WQJ9',
+                    'CRYPTO-1-TLUX',
+                    'CRYPTO-1-RP8A',
+                    'CRYPTO-1-K3YT',
+                    'CRYPTO-1-ZW5C',
+                    'CRYPTO-1-N49J',
+                    'CRYPTO-1-X6FK',
+                    'CRYPTO-1-YGRV',
+                    'CRYPTO-1-MPT2',
+                    'CRYPTO-1-LK38',
+                    'CRYPTO-1-C7WD',
+                    'CRYPTO-1-QVAJ',
+                    'CRYPTO-1-W29X'
                 ]);
                 
                 // Track used codes
@@ -699,6 +778,7 @@
                     this.isScanning = true;
                     this.startBtn.style.display = 'none';
                     this.stopBtn.style.display = 'inline-block';
+                    this.scannerBox.classList.add('scanning');
                     this.updateStatus('Scanning for QR codes...');
                     
                     this.scan();
@@ -723,6 +803,7 @@
                 this.video.srcObject = null;
                 this.startBtn.style.display = 'inline-block';
                 this.stopBtn.style.display = 'none';
+                this.scannerBox.classList.remove('scanning');
                 this.updateStatus('Scanner stopped. Click "Start Scanner" to begin.');
                 this.hideMessage();
             }
