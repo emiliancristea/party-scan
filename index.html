@@ -296,6 +296,26 @@ html, body {
             margin-bottom: 15px;
         }
 
+        .loading-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: #ffffff;
+            font-size: 1.2rem;
+            z-index: 1000;
+        }
+
+        .loading-modal.hidden {
+            display: none;
+        }
+
         .message.hidden {
             opacity: 0;
         }
@@ -562,6 +582,8 @@ html, body {
 
         <div id="message" class="message hidden"></div>
 
+        <div id="loadingModal" class="loading-modal hidden">Searching the code...</div>
+
         <div class="controls">
             <button id="startBtn" class="btn">Start Scanner</button>
             <button id="stopBtn" class="btn" style="display: none;">Stop Scanner</button>
@@ -582,6 +604,7 @@ html, body {
                 this.canvas = document.createElement('canvas');
                 this.ctx = this.canvas.getContext('2d');
                 this.messageEl = document.getElementById('message');
+                this.loadingModal = document.getElementById('loadingModal');
                 this.statusEl = document.getElementById('status');
                 this.startBtn = document.getElementById('startBtn');
                 this.stopBtn = document.getElementById('stopBtn');
@@ -889,29 +912,34 @@ html, body {
             
             processQRCode(qrData) {
                 if (this.scanCooldown) return;
-                
+
                 this.scanCooldown = true;
-                
-                if (this.usedCodes.has(qrData)) {
-                    this.showMessage('REFUZAT!', 'rejected');
-                    this.updateStatus(`Code already used: ${qrData}`);
-                } else if (this.validCodes.has(qrData)) {
-                    this.usedCodes.add(qrData);
-                    this.showMessage('ACCEPTED!', 'accepted');
-                    this.updateStatus(`Valid code scanned: ${qrData}`);
-                } else {
-                    this.showMessage('REFUZAT!', 'rejected');
-                    this.updateStatus(`Invalid code: ${qrData}`);
-                }
-                
-                // Prevent re-scanning for 2 seconds
+                this.showLoading('Searching the code...');
+
                 setTimeout(() => {
-                    this.scanCooldown = false;
-                    this.hideMessage();
-                    if (this.isScanning) {
-                        this.updateStatus('Scanning for QR codes...');
+                    if (this.usedCodes.has(qrData)) {
+                        this.showMessage('Invalid', 'rejected');
+                        this.updateStatus(`Code already used: ${qrData}`);
+                    } else if (this.validCodes.has(qrData)) {
+                        this.usedCodes.add(qrData);
+                        this.showMessage('Valid', 'accepted');
+                        this.updateStatus(`Valid code scanned: ${qrData}`);
+                    } else {
+                        this.showMessage('Invalid', 'rejected');
+                        this.updateStatus(`Invalid code: ${qrData}`);
                     }
-                }, 2000);
+
+                    this.hideLoading();
+
+                    // Prevent re-scanning for 2 seconds
+                    setTimeout(() => {
+                        this.scanCooldown = false;
+                        this.hideMessage();
+                        if (this.isScanning) {
+                            this.updateStatus('Scanning for QR codes...');
+                        }
+                    }, 2000);
+                }, 500);
             }
             
             showMessage(text, type) {
@@ -921,6 +949,15 @@ html, body {
             
             hideMessage() {
                 this.messageEl.classList.add('hidden');
+            }
+
+            showLoading(text) {
+                this.loadingModal.textContent = text;
+                this.loadingModal.classList.remove('hidden');
+            }
+
+            hideLoading() {
+                this.loadingModal.classList.add('hidden');
             }
             
             updateStatus(text) {
