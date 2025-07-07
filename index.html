@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Mijto 1 - Party Pre-Scale Scanner</title>
+    <title>La Mişto 1 - Party Scale Scanner</title>
     <style>
         * {
             margin: 0;
@@ -18,10 +18,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             color: #ffffff;
             position: relative;
             overflow-x: hidden;
+            padding: 15px 10px;
         }
 
         body::before {
@@ -41,18 +42,20 @@
 
         .container {
             text-align: center;
-            padding: 40px;
-            max-width: 550px;
+            padding: 25px 20px;
+            max-width: 100%;
             width: 100%;
+            max-width: 420px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
-            border-radius: 24px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 
                 0 8px 32px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             z-index: 1;
+            margin-top: 20px;
         }
 
         .container::before {
@@ -69,12 +72,12 @@
         }
 
         .header {
-            margin-bottom: 35px;
+            margin-bottom: 25px;
         }
 
         .header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
+            font-size: 2rem;
+            margin-bottom: 10px;
             font-weight: 700;
             background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
             -webkit-background-clip: text;
@@ -82,10 +85,11 @@
             background-clip: text;
             text-shadow: none;
             letter-spacing: -0.02em;
+            line-height: 1.2;
         }
 
         .header p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             opacity: 0.8;
             color: #d0d0d0;
             font-weight: 400;
@@ -94,9 +98,9 @@
         .scanner-container {
             position: relative;
             width: 100%;
-            max-width: 420px;
-            margin: 0 auto 35px;
-            border-radius: 20px;
+            max-width: 100%;
+            margin: 0 auto 25px;
+            border-radius: 16px;
             overflow: hidden;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
@@ -108,10 +112,11 @@
 
         #video {
             width: 100%;
-            height: 300px;
+            height: 280px;
             object-fit: cover;
             display: block;
             background: #000000;
+            border-radius: 16px;
         }
 
         #video.loading {
@@ -142,14 +147,21 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border: 2px solid rgba(255, 255, 255, 0.6);
-            border-radius: 16px;
+            border-radius: 12px;
             box-shadow: 
                 0 0 20px rgba(255, 255, 255, 0.3),
                 inset 0 0 20px rgba(255, 255, 255, 0.1);
             animation: pulse 2s infinite;
+        }
+
+        .scanner-box.scanning {
+            border-color: rgba(120, 255, 120, 0.8);
+            box-shadow: 
+                0 0 30px rgba(120, 255, 120, 0.5),
+                inset 0 0 30px rgba(120, 255, 120, 0.2);
         }
 
         @keyframes pulse {
@@ -178,14 +190,14 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
         }
 
         .corner {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border: 2px solid rgba(255, 255, 255, 0.8);
         }
 
@@ -218,11 +230,11 @@
         }
 
         .message {
-            min-height: 80px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .message.hidden {
@@ -230,7 +242,7 @@
         }
 
         .accepted {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #ffffff;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
@@ -238,7 +250,7 @@
         }
 
         .rejected {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #ff6b6b;
             text-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
@@ -270,7 +282,7 @@
         }
 
         .controls {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .btn {
@@ -279,12 +291,13 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
             padding: 14px 28px;
-            border-radius: 20px;
-            font-size: 1rem;
+            border-radius: 16px;
+            font-size: 0.95rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 8px;
+            margin: 6px;
+            min-width: 140px;
             box-shadow: 
                 0 4px 16px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -315,6 +328,18 @@
             left: 100%;
         }
 
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .btn:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.3);
+            outline-offset: 2px;
+        }
+
         .permission-denied {
             background: rgba(255, 107, 107, 0.1);
             backdrop-filter: blur(10px);
@@ -334,67 +359,124 @@
         }
 
         .status {
-            margin-top: 18px;
-            font-size: 0.95rem;
+            margin-top: 15px;
+            font-size: 0.9rem;
             opacity: 0.7;
             color: #d0d0d0;
         }
 
         .footer {
             position: fixed;
-            bottom: 20px;
+            bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
             text-align: center;
             z-index: 10;
+            max-width: 90%;
         }
 
-        @media (max-width: 480px) {
+        /* Desktop optimization */
+        @media (min-width: 481px) {
+            body {
+                justify-content: center;
+                padding: 20px;
+            }
+            
             .container {
-                padding: 30px 20px;
-                margin: 20px;
+                padding: 35px;
+                max-width: 480px;
+                margin-top: 0;
             }
             
             .header h1 {
-                font-size: 2.2rem;
+                font-size: 2.4rem;
+                margin-bottom: 15px;
             }
             
             .header p {
-                font-size: 1rem;
+                font-size: 1.1rem;
+            }
+            
+            .header {
+                margin-bottom: 30px;
             }
             
             .scanner-container {
-                max-width: 350px;
+                margin-bottom: 30px;
             }
             
             #video {
-                height: 250px;
+                height: 320px;
             }
             
             .scanner-box {
-                width: 150px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
+                border-radius: 16px;
             }
             
             .scanner-corners {
-                width: 150px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
+            }
+            
+            .corner {
+                width: 20px;
+                height: 20px;
+            }
+            
+            .message {
+                min-height: 70px;
+                margin-bottom: 20px;
             }
             
             .accepted, .rejected {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                font-size: 1rem;
+                margin: 8px;
+                border-radius: 20px;
+                min-width: 160px;
+            }
+            
+            .controls {
+                margin-top: 20px;
+            }
+            
+            .status {
+                font-size: 0.95rem;
+                margin-top: 18px;
+            }
+            
+            .footer {
+                bottom: 20px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .scanner-box {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .scanner-corners {
+                width: 160px;
+                height: 160px;
             }
             
             .btn {
                 padding: 12px 24px;
                 font-size: 0.9rem;
-            }
-            
-            .footer {
-                bottom: 15px;
-                font-size: 0.8rem;
+                min-width: 120px;
             }
         }
     </style>
@@ -402,7 +484,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>� La Mijto 1 - Party Pre-Scale Scanner</h1>
+            <h1>La Mişto 1 - Party Scale Scanner</h1>
             <p>Scan QR codes to validate event tickets</p>
         </div>
 
@@ -444,6 +526,7 @@
                 this.statusEl = document.getElementById('status');
                 this.startBtn = document.getElementById('startBtn');
                 this.stopBtn = document.getElementById('stopBtn');
+                this.scannerBox = document.querySelector('.scanner-box');
                 
                 this.isScanning = false;
                 this.stream = null;
@@ -699,6 +782,7 @@
                     this.isScanning = true;
                     this.startBtn.style.display = 'none';
                     this.stopBtn.style.display = 'inline-block';
+                    this.scannerBox.classList.add('scanning');
                     this.updateStatus('Scanning for QR codes...');
                     
                     this.scan();
@@ -723,6 +807,7 @@
                 this.video.srcObject = null;
                 this.startBtn.style.display = 'inline-block';
                 this.stopBtn.style.display = 'none';
+                this.scannerBox.classList.remove('scanning');
                 this.updateStatus('Scanner stopped. Click "Start Scanner" to begin.');
                 this.hideMessage();
             }
