@@ -11,7 +11,7 @@
             box-sizing: border-box;
         }
 
-        body {
+html, body {
             font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             /* Fallback solid color for older browsers */
             background-color: #1a1a1a !important;
@@ -100,7 +100,7 @@
         
         /* Force dark theme for browsers with forced colors */
         @media (forced-colors: active) {
-            body {
+            html, body {
                 background-color: #1a1a1a !important;
                 color: white !important;
             }
@@ -130,7 +130,7 @@
         }
         
         /* Fallback styles for browsers without gradient support */
-        .no-gradients body {
+        .no-gradients html, body {
             background-color: #1a1a1a !important;
             background-image: none !important;
         }
@@ -438,7 +438,7 @@
 
         /* Desktop optimization */
         @media (min-width: 481px) {
-            body {
+            html, body {
                 justify-content: center;
                 padding: 20px;
             }
