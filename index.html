@@ -424,6 +424,7 @@
         <div class="controls">
             <button id="startBtn" class="btn">Start Scanner</button>
             <button id="stopBtn" class="btn" style="display: none;">Stop Scanner</button>
+            <button id="testBtn" class="btn" style="font-size: 0.9em; opacity: 0.8;">Test Camera</button>
         </div>
 
         <div class="status" id="status">Click "Start Scanner" to begin</div>
@@ -444,6 +445,7 @@
                 this.statusEl = document.getElementById('status');
                 this.startBtn = document.getElementById('startBtn');
                 this.stopBtn = document.getElementById('stopBtn');
+                this.testBtn = document.getElementById('testBtn');
                 
                 this.isScanning = false;
                 this.stream = null;
@@ -659,6 +661,7 @@
             init() {
                 this.startBtn.addEventListener('click', () => this.startScanning());
                 this.stopBtn.addEventListener('click', () => this.stopScanning());
+                this.testBtn.addEventListener('click', () => this.testCamera());
                 
                 // Check HTTPS requirement
                 if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
@@ -681,30 +684,90 @@
             async startScanning() {
                 try {
                     this.updateStatus('Requesting camera access...');
+                    this.video.classList.add('loading');
                     
-                    this.stream = await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: 'environment', // Use back camera on mobile
-                            width: { ideal: 640 },
-                            height: { ideal: 480 }
+                    console.log('Requesting camera access...');
+                    
+                    // Try multiple camera configurations
+                    let constraints = [
+                        // Try back camera first
+                        {
+                            video: {
+                                facingMode: { exact: 'environment' },
+                                width: { ideal: 640 },
+                                height: { ideal: 480 }
+                            }
+                        },
+                        // Fallback to any camera
+                        {
+                            video: {
+                                facingMode: 'environment',
+                                width: { ideal: 640 },
+                                height: { ideal: 480 }
+                            }
+                        },
+                        // Simplest fallback
+                        { video: true }
+                    ];
+                    
+                    let stream = null;
+                    for (let constraint of constraints) {
+                        try {
+                            console.log('Trying constraint:', constraint);
+                            stream = await navigator.mediaDevices.getUserMedia(constraint);
+                            break;
+                        } catch (err) {
+                            console.log('Constraint failed:', err);
+                            continue;
                         }
-                    });
+                    }
                     
+                    if (!stream) {
+                        throw new Error('Could not access camera with any configuration');
+                    }
+                    
+                    this.stream = stream;
                     this.video.srcObject = this.stream;
-                    this.video.addEventListener('loadedmetadata', () => {
-                        this.canvas.width = this.video.videoWidth;
-                        this.canvas.height = this.video.videoHeight;
+                    
+                    // Wait for video to load
+                    await new Promise((resolve, reject) => {
+                        this.video.addEventListener('loadedmetadata', () => {
+                            console.log('Video metadata loaded');
+                            console.log('Video dimensions:', this.video.videoWidth, 'x', this.video.videoHeight);
+                            this.canvas.width = this.video.videoWidth;
+                            this.canvas.height = this.video.videoHeight;
+                            resolve();
+                        });
+                        
+                        this.video.addEventListener('error', (err) => {
+                            console.error('Video error:', err);
+                            reject(err);
+                        });
+                        
+                        // Timeout fallback
+                        setTimeout(() => {
+                            if (this.video.readyState === 0) {
+                                reject(new Error('Video failed to load'));
+                            }
+                        }, 5000);
                     });
                     
+                    // Play video
+                    await this.video.play();
+                    
+                    this.video.classList.remove('loading');
                     this.isScanning = true;
                     this.startBtn.style.display = 'none';
                     this.stopBtn.style.display = 'inline-block';
                     this.updateStatus('Scanning for QR codes...');
                     
+                    console.log('Camera started successfully');
                     this.scan();
+                    
                 } catch (err) {
                     console.error('Error accessing camera:', err);
-                    this.showCameraError();
+                    this.video.classList.remove('loading');
+                    this.showCameraError(err);
                 }
             }
             
@@ -721,22 +784,70 @@
                 }
                 
                 this.video.srcObject = null;
+                this.video.classList.remove('loading');
                 this.startBtn.style.display = 'inline-block';
                 this.stopBtn.style.display = 'none';
                 this.updateStatus('Scanner stopped. Click "Start Scanner" to begin.');
                 this.hideMessage();
             }
             
+            async testCamera() {
+                try {
+                    this.updateStatus('Testing camera access...');
+                    this.testBtn.disabled = true;
+                    this.testBtn.textContent = 'Testing...';
+                    
+                    // Simple camera test
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    
+                    // Show brief success message
+                    this.showMessage('Camera test successful! ✅', 'accepted');
+                    this.updateStatus('Camera is working. You can now start scanning.');
+                    
+                    // Stop the test stream
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    setTimeout(() => {
+                        this.hideMessage();
+                        this.updateStatus('Click "Start Scanner" to begin');
+                    }, 2000);
+                    
+                } catch (err) {
+                    console.error('Camera test failed:', err);
+                    this.showCameraError(err);
+                } finally {
+                    this.testBtn.disabled = false;
+                    this.testBtn.textContent = 'Test Camera';
+                }
+            }
+            
             scan() {
                 if (!this.isScanning) return;
                 
                 if (this.video.readyState === this.video.HAVE_ENOUGH_DATA) {
-                    this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-                    const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+                    // Check if video is actually showing content
+                    if (this.video.videoWidth === 0 || this.video.videoHeight === 0) {
+                        console.warn('Video has no dimensions, retrying...');
+                        this.animationFrame = requestAnimationFrame(() => this.scan());
+                        return;
+                    }
                     
-                    if (code && !this.scanCooldown) {
-                        this.processQRCode(code.data);
+                    try {
+                        this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
+                        const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+                        const code = jsQR(imageData.data, imageData.width, imageData.height);
+                        
+                        if (code && !this.scanCooldown) {
+                            this.processQRCode(code.data);
+                        }
+                    } catch (err) {
+                        console.error('Error during scanning:', err);
+                        // Continue scanning despite errors
+                    }
+                } else {
+                    // Log video ready state for debugging
+                    if (this.video.readyState < 2) {
+                        console.log('Video not ready, state:', this.video.readyState);
                     }
                 }
                 
@@ -783,20 +894,73 @@
                 this.statusEl.textContent = text;
             }
             
-            showCameraError() {
+            showCameraError(err = null) {
+                let errorMessage = 'Camera access denied or unavailable';
+                let troubleshootingSteps = [
+                    'Allow camera permission when prompted',
+                    'Refresh the page and try again',
+                    'Check your browser settings if permission was denied'
+                ];
+                
+                if (err) {
+                    console.error('Detailed camera error:', err);
+                    
+                    if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                        errorMessage = 'Camera permission denied';
+                        troubleshootingSteps = [
+                            'Click the camera icon in your browser\'s address bar',
+                            'Set camera permission to "Allow"',
+                            'Refresh the page and try again'
+                        ];
+                    } else if (err.name === 'NotFoundError' || err.name === 'DeviceNotFoundError') {
+                        errorMessage = 'No camera found';
+                        troubleshootingSteps = [
+                            'Make sure your device has a camera',
+                            'Check that the camera is not being used by another app',
+                            'Try refreshing the page'
+                        ];
+                    } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+                        errorMessage = 'Camera is already in use';
+                        troubleshootingSteps = [
+                            'Close other apps that might be using the camera',
+                            'Restart your browser',
+                            'Restart your device if the problem persists'
+                        ];
+                    } else if (err.name === 'OverconstrainedError' || err.name === 'ConstraintNotSatisfiedError') {
+                        errorMessage = 'Camera doesn\'t meet requirements';
+                        troubleshootingSteps = [
+                            'Try with a different camera if available',
+                            'Update your browser',
+                            'Try on a different device'
+                        ];
+                    } else if (err.name === 'NotSupportedError') {
+                        errorMessage = 'Camera not supported';
+                        troubleshootingSteps = [
+                            'Update your browser to the latest version',
+                            'Try a different browser (Chrome, Firefox, Safari)',
+                            'Make sure you\'re using HTTPS'
+                        ];
+                    }
+                }
+                
+                const troubleshootingList = troubleshootingSteps.map(step => `<li>${step}</li>`).join('');
+                
                 this.messageEl.innerHTML = `
                     <div class="permission-denied">
-                        <h3>📷 Camera Access Required</h3>
-                        <p>This app needs camera access to scan QR codes. Please:</p>
+                        <h3>📷 Camera Access Issue</h3>
+                        <p><strong>${errorMessage}</strong></p>
+                        ${err ? `<p style="font-size: 0.9em; opacity: 0.8; margin: 10px 0;">Error: ${err.message}</p>` : ''}
+                        <p>Please try the following:</p>
                         <ol style="text-align: left; margin: 10px 0;">
-                            <li>Allow camera permission when prompted</li>
-                            <li>Refresh the page and try again</li>
-                            <li>Check your browser settings if permission was denied</li>
+                            ${troubleshootingList}
                         </ol>
+                        <p style="font-size: 0.9em; margin-top: 15px;">
+                            <strong>Note:</strong> Camera access requires HTTPS except on localhost.
+                        </p>
                     </div>
                 `;
                 this.messageEl.classList.remove('hidden');
-                this.updateStatus('Camera access denied or unavailable');
+                this.updateStatus(errorMessage);
             }
             
             showError(message) {
