@@ -47,22 +47,21 @@ html, body {
             text-align: center;
             padding: 25px 20px;
             max-width: 100%;
-            width: 100%;
-            max-width: 420px;
+            width: calc(100% - 40px);
             /* Fallback solid background for browsers that don't support backdrop-filter */
             background-color: rgba(40, 40, 40, 0.9) !important;
             /* Modern semi-transparent background for supported browsers */
             background: rgba(255, 255, 255, 0.05) !important;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px); /* Safari support */
-            border-radius: 20px;
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 
                 0 8px 32px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             z-index: 1;
-            margin-top: 20px;
+            margin: 20px 20px 0 20px;
         }
 
         .container::before {
@@ -73,7 +72,7 @@ html, body {
             right: 0;
             bottom: 0;
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border-radius: 24px;
+            border-radius: 16px;
             pointer-events: none;
             z-index: -1;
         }
@@ -208,33 +207,25 @@ html, body {
             transform: translate(-50%, -50%);
             width: 180px;
             height: 180px;
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            border-radius: 12px;
-            box-shadow: 
-                0 0 20px rgba(255, 255, 255, 0.3),
-                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
             animation: pulse 2s infinite;
         }
 
         .scanner-box.scanning {
-            border-color: rgba(120, 255, 120, 0.8);
-            box-shadow: 
-                0 0 30px rgba(120, 255, 120, 0.5),
-                inset 0 0 30px rgba(120, 255, 120, 0.2);
+            border-color: rgba(120, 255, 120, 0.7);
+            box-shadow: 0 0 12px rgba(120, 255, 120, 0.3);
         }
 
         .scanner-box.circle-detected {
-            border-color: rgba(255, 165, 0, 0.8);
-            box-shadow: 
-                0 0 30px rgba(255, 165, 0, 0.5),
-                inset 0 0 30px rgba(255, 165, 0, 0.2);
+            border-color: rgba(255, 165, 0, 0.7);
+            box-shadow: 0 0 12px rgba(255, 165, 0, 0.3);
         }
 
         .scanner-box.qr-detected {
-            border-color: rgba(0, 255, 255, 0.8);
-            box-shadow: 
-                0 0 30px rgba(0, 255, 255, 0.5),
-                inset 0 0 30px rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.7);
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
         }
 
         .loading-overlay {
@@ -326,22 +317,16 @@ html, body {
 
         @keyframes pulse {
             0% { 
-                box-shadow: 
-                    0 0 20px rgba(255, 255, 255, 0.3),
-                    inset 0 0 20px rgba(255, 255, 255, 0.1);
-                border-color: rgba(255, 255, 255, 0.6);
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+                border-color: rgba(255, 255, 255, 0.5);
             }
             50% { 
-                box-shadow: 
-                    0 0 30px rgba(255, 255, 255, 0.5),
-                    inset 0 0 30px rgba(255, 255, 255, 0.2);
-                border-color: rgba(255, 255, 255, 0.8);
+                box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+                border-color: rgba(255, 255, 255, 0.7);
             }
             100% { 
-                box-shadow: 
-                    0 0 20px rgba(255, 255, 255, 0.3),
-                    inset 0 0 20px rgba(255, 255, 255, 0.1);
-                border-color: rgba(255, 255, 255, 0.6);
+                box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+                border-color: rgba(255, 255, 255, 0.5);
             }
         }
 
@@ -358,7 +343,7 @@ html, body {
             position: absolute;
             width: 16px;
             height: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.6);
         }
 
         .corner.top-left {
@@ -405,7 +390,7 @@ html, body {
             font-size: 1.5rem;
             font-weight: bold;
             color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
             animation: bounce 0.6s ease-in-out;
         }
 
@@ -413,7 +398,7 @@ html, body {
             font-size: 1.5rem;
             font-weight: bold;
             color: #ff6b6b;
-            text-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+            text-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
             animation: shake 0.6s ease-in-out;
         }
 
@@ -446,21 +431,19 @@ html, body {
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ffffff;
             padding: 14px 28px;
-            border-radius: 16px;
+            border-radius: 12px;
             font-size: 0.95rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             margin: 6px;
             min-width: 140px;
-            box-shadow: 
-                0 4px 16px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             position: relative;
             overflow: hidden;
         }
@@ -477,11 +460,10 @@ html, body {
         }
 
         .btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 
-                0 6px 20px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
         .btn:hover::before {
@@ -490,9 +472,7 @@ html, body {
 
         .btn:active {
             transform: translateY(0);
-            box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
         }
 
         .btn:focus {
@@ -515,7 +495,7 @@ html, body {
         .permission-denied h3 {
             color: #ff6b6b;
             margin-bottom: 12px;
-            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+            text-shadow: 0 1px 4px rgba(255, 107, 107, 0.3);
         }
 
         .status {
@@ -545,9 +525,9 @@ html, body {
             }
             
             .container {
-                padding: 35px;
-                max-width: 480px;
-                margin-top: 0;
+                padding: 35px 35px;
+                margin: 0 30px;
+                width: calc(100% - 60px);
             }
             
             .header h1 {
@@ -668,13 +648,11 @@ html, body {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
         }
 
         .detection-result.hidden {
@@ -701,7 +679,7 @@ html, body {
             font-family: 'Courier New', monospace;
             font-size: 0.95rem;
             color: #00ffff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            text-shadow: 0 1px 4px rgba(0, 255, 255, 0.3);
             word-break: break-all;
             max-width: 100%;
         }
@@ -735,13 +713,29 @@ html, body {
             border-color: rgba(0, 255, 0, 0.5);
             transform: translateY(-2px);
         }
+
+        .btn.qr-ready {
+            animation: pulse-ready 1.5s infinite;
+        }
+
+        @keyframes pulse-ready {
+            0% { 
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            }
+            50% { 
+                box-shadow: 0 4px 16px rgba(0, 255, 0, 0.3);
+            }
+            100% { 
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>La Mişto 1 - Party Scale Scanner</h1>
-            <p>Scan QR codes to validate event tickets</p>
+            <h1>La Mișto 1</h1>
+            <p>Party Pre-Sale Scanner</p>
         </div>
 
         <div class="scanner-container">
@@ -775,11 +769,12 @@ html, body {
         </div>
 
         <div class="controls">
-            <button id="startBtn" class="btn">Start Scanner</button>
-            <button id="stopBtn" class="btn" style="display: none;">Stop Scanner</button>
+            <button id="startBtn" class="btn">Start Camera</button>
+            <button id="scanBtn" class="btn" style="display: none;">🔄 Reset (Double-click)</button>
+            <button id="stopBtn" class="btn" style="display: none;">Stop Camera</button>
         </div>
 
-        <div class="status" id="status">Click "Start Scanner" to begin</div>
+        <div class="status" id="status">Click "Start Camera" to begin</div>
     </div>
 
     <div class="footer">
@@ -796,6 +791,7 @@ html, body {
                 this.messageEl = document.getElementById('message');
                 this.statusEl = document.getElementById('status');
                 this.startBtn = document.getElementById('startBtn');
+                this.scanBtn = document.getElementById('scanBtn');
                 this.stopBtn = document.getElementById('stopBtn');
                 this.scannerBox = document.querySelector('.scanner-box');
                 this.loadingOverlay = document.getElementById('loadingOverlay');
@@ -813,108 +809,114 @@ html, body {
                 this.circleDetectionBuffer = []; // Buffer to smooth circle detection
                 this.qrProcessingEnabled = false;
                 this.currentDetectedCode = null; // Store the currently detected code
+                this.detectedQRCode = null; // Store the currently visible QR code
+                this.qrCodeLocked = false; // Once detected, lock it until user action
+                this.lastQRDetectionTime = 0; // Prevent rapid fire detections
+                this.qrDetectionDebounce = 1000; // 1 second debounce
                 
-                // Pre-set list of valid event codes
-                // In a real-world scenario, this should be fetched from a server
+                // Valid pre-sale event codes for La Mișto 1
+                // Only these specific codes will be accepted
                 this.validCodes = new Set([
-                    'LA-MISTO-1-X7KJ',
-                    'LA-MISTO-1-9QZP',
-                    'LA-MISTO-1-A6TD',
-                    'LA-MISTO-1-FY3X',
-                    'LA-MISTO-1-KD1M',
-                    'LA-MISTO-1-ZP84',
-                    'LA-MISTO-1-TCJN',
-                    'LA-MISTO-1-LV62',
-                    'LA-MISTO-1-W0QB',
-                    'LA-MISTO-1-BKX5',
-                    'LA-MISTO-1-YU93',
-                    'LA-MISTO-1-27VF',
-                    'LA-MISTO-1-RPLD',
-                    'LA-MISTO-1-GAMQ',
-                    'LA-MISTO-1-C59N',
-                    'LA-MISTO-1-EX0W',
-                    'LA-MISTO-1-VYMK',
-                    'LA-MISTO-1-MR3C',
-                    'LA-MISTO-1-H5ZT',
-                    'LA-MISTO-1-NLJ9',
-                    'LA-MISTO-1-XF84',
-                    'LA-MISTO-1-A7WY',
-                    'LA-MISTO-1-PD03',
-                    'LA-MISTO-1-ZLMX',
-                    'LA-MISTO-1-KRQ2',
-                    'LA-MISTO-1-TN1V',
-                    'LA-MISTO-1-U8BC',
-                    'LA-MISTO-1-9JKP',
-                    'LA-MISTO-1-FCV7',
-                    'LA-MISTO-1-BYWX',
-                    'LA-MISTO-1-WKZ1',
-                    'LA-MISTO-1-ER5M',
-                    'LA-MISTO-1-H2LT',
-                    'LA-MISTO-1-LXQN',
-                    'LA-MISTO-1-JG39',
-                    'LA-MISTO-1-YTMF',
-                    'LA-MISTO-1-VZ06',
-                    'LA-MISTO-1-C43A',
-                    'LA-MISTO-1-MWUX',
-                    'LA-MISTO-1-NE7K',
-                    'LA-MISTO-1-X0DV',
-                    'LA-MISTO-1-ZRC3',
-                    'LA-MISTO-1-GYAL',
-                    'LA-MISTO-1-7FNP',
-                    'LA-MISTO-1-PA8D',
-                    'LA-MISTO-1-TLQW',
-                    'LA-MISTO-1-FJ6Y',
-                    'LA-MISTO-1-UD1C',
-                    'LA-MISTO-1-9ZBX',
-                    'LA-MISTO-1-KPVE',
-                    'LA-MISTO-1-MTR2',
-                    'LA-MISTO-1-X93W',
-                    'LA-MISTO-1-W5AJ',
-                    'LA-MISTO-1-YDZ6',
-                    'LA-MISTO-1-0RKL',
-                    'LA-MISTO-1-LG3X',
-                    'LA-MISTO-1-VUC1',
-                    'LA-MISTO-1-NJYP',
-                    'LA-MISTO-1-BX0F',
-                    'LA-MISTO-1-GEW4',
-                    'LA-MISTO-1-Z2QT',
-                    'LA-MISTO-1-H95C',
-                    'LA-MISTO-1-RXLA',
-                    'LA-MISTO-1-JK67',
-                    'LA-MISTO-1-PTYN',
-                    'LA-MISTO-1-F1XU',
-                    'LA-MISTO-1-CMQ3',
-                    'LA-MISTO-1-AZK7',
-                    'LA-MISTO-1-8WYV',
-                    'LA-MISTO-1-YX2D',
-                    'LA-MISTO-1-T09B',
-                    'LA-MISTO-1-MLJF',
-                    'LA-MISTO-1-XKU1',
-                    'LA-MISTO-1-V93E',
-                    'LA-MISTO-1-DNQ8',
-                    'LA-MISTO-1-WGF5',
-                    'LA-MISTO-1-R71Z',
-                    'LA-MISTO-1-ZUCN',
-                    'LA-MISTO-1-JM6T',
-                    'LA-MISTO-1-PXEB',
-                    'LA-MISTO-1-GLY2',
-                    'LA-MISTO-1-KOFD',
-                    'LA-MISTO-1-4QZX',
-                    'LA-MISTO-1-9VRW',
-                    'LA-MISTO-1-HC13',
-                    'LA-MISTO-1-N7XY',
-                    'LA-MISTO-1-FW0A',
-                    'LA-MISTO-1-TJZ4',
-                    'LA-MISTO-1-MXPB',
-                    'LA-MISTO-1-BL2N',
-                    'LA-MISTO-1-YRQ7',
-                    'LA-MISTO-1-CZUM',
-                    'LA-MISTO-1-X15K',
-                    'LA-MISTO-1-K93L',
-                    'LA-MISTO-1-WAZF',
-                    'LA-MISTO-1-LUPE',
-                    'LA-MISTO-1-JTD3',
-                    'LA-MISTO-1-VKX9'
+                    'LA-MISTO-1-WDT6',
+                    'LA-MISTO-1-WEE4',
+                    'LA-MISTO-1-WM3O',
+                    'LA-MISTO-1-WXY2',
+                    'LA-MISTO-1-WZ2Q',
+                    'LA-MISTO-1-X97J',
+                    'LA-MISTO-1-XCTR',
+                    'LA-MISTO-1-YF2V',
+                    'LA-MISTO-1-YL3C',
+                    'LA-MISTO-1-YRWN',
+                    'LA-MISTO-1-YWKS',
+                    'LA-MISTO-1-YZKR',
+                    'LA-MISTO-1-ZPPU',
+                    'LA-MISTO-1-0XEW',
+                    'LA-MISTO-1-1MPH',
+                    'LA-MISTO-1-2VTA',
+                    'LA-MISTO-1-3MTQ',
+                    'LA-MISTO-1-5KOE',
+                    'LA-MISTO-1-5XY2',
+                    'LA-MISTO-1-6UYY',
+                    'LA-MISTO-1-6Y1T',
+                    'LA-MISTO-1-7PJF',
+                    'LA-MISTO-1-8NPS',
+                    'LA-MISTO-1-8VWW',
+                    'LA-MISTO-1-9BAD',
+                    'LA-MISTO-1-9FXG',
+                    'LA-MISTO-1-9JM8',
+                    'LA-MISTO-1-9VI9',
+                    'LA-MISTO-1-39S3',
+                    'LA-MISTO-1-66LX',
+                    'LA-MISTO-1-84UO',
+                    'LA-MISTO-1-A82S',
+                    'LA-MISTO-1-AS4V',
+                    'LA-MISTO-1-AV09',
+                    'LA-MISTO-1-BBZQ',
+                    'LA-MISTO-1-CB0L',
+                    'LA-MISTO-1-CEE9',
+                    'LA-MISTO-1-CGQ0',
+                    'LA-MISTO-1-D1TK',
+                    'LA-MISTO-1-DI9S',
+                    'LA-MISTO-1-DIX7',
+                    'LA-MISTO-1-EEYB',
+                    'LA-MISTO-1-ES0A',
+                    'LA-MISTO-1-FTYB',
+                    'LA-MISTO-1-G5E4',
+                    'LA-MISTO-1-GA01',
+                    'LA-MISTO-1-GK8X',
+                    'LA-MISTO-1-GUVV',
+                    'LA-MISTO-1-GWSR',
+                    'LA-MISTO-1-GXAG',
+                    'LA-MISTO-1-GXPO',
+                    'LA-MISTO-1-I8ZM',
+                    'LA-MISTO-1-ITH3',
+                    'LA-MISTO-1-J3IQ',
+                    'LA-MISTO-1-J9S8',
+                    'LA-MISTO-1-JPKR',
+                    'LA-MISTO-1-JYOB',
+                    'LA-MISTO-1-KZEY',
+                    'LA-MISTO-1-L1GO',
+                    'LA-MISTO-1-LRYI',
+                    'LA-MISTO-1-LV54',
+                    'LA-MISTO-1-LYBY',
+                    'LA-MISTO-1-M4OD',
+                    'LA-MISTO-1-MPH1',
+                    'LA-MISTO-1-MQR7',
+                    'LA-MISTO-1-MX3L',
+                    'LA-MISTO-1-N2H0',
+                    'LA-MISTO-1-N79X',
+                    'LA-MISTO-1-NCDX',
+                    'LA-MISTO-1-NH8M',
+                    'LA-MISTO-1-NIJQ',
+                    'LA-MISTO-1-OUPF',
+                    'LA-MISTO-1-PA72',
+                    'LA-MISTO-1-PH2F',
+                    'LA-MISTO-1-PK99',
+                    'LA-MISTO-1-PM11',
+                    'LA-MISTO-1-Q0HD',
+                    'LA-MISTO-1-Q4RS',
+                    'LA-MISTO-1-Q991',
+                    'LA-MISTO-1-QAXV',
+                    'LA-MISTO-1-QE6F',
+                    'LA-MISTO-1-QKG4',
+                    'LA-MISTO-1-QMRB',
+                    'LA-MISTO-1-RTVX',
+                    'LA-MISTO-1-RYB1',
+                    'LA-MISTO-1-S4XZ',
+                    'LA-MISTO-1-S841',
+                    'LA-MISTO-1-SDFE',
+                    'LA-MISTO-1-SOIQ',
+                    'LA-MISTO-1-SXDP',
+                    'LA-MISTO-1-SZ6Y',
+                    'LA-MISTO-1-TODK',
+                    'LA-MISTO-1-TTXZ',
+                    'LA-MISTO-1-TTZ9',
+                    'LA-MISTO-1-TV1K',
+                    'LA-MISTO-1-UFCK',
+                    'LA-MISTO-1-UYNG',
+                    'LA-MISTO-1-VLV1',
+                    'LA-MISTO-1-VM3T',
+                    'LA-MISTO-1-VRRG'
                 ]);
                 
                 // Track used codes
@@ -925,6 +927,7 @@ html, body {
             
             init() {
                 this.startBtn.addEventListener('click', () => this.startScanning());
+                this.scanBtn.addEventListener('dblclick', () => this.resetQRLock());
                 this.stopBtn.addEventListener('click', () => this.stopScanning());
                 this.retryBtn.addEventListener('click', () => this.retryScanning());
                 this.checkBtn.addEventListener('click', () => this.checkCode());
@@ -967,9 +970,10 @@ html, body {
                     
                     this.isScanning = true;
                     this.startBtn.style.display = 'none';
+                    this.scanBtn.style.display = 'inline-block';
                     this.stopBtn.style.display = 'inline-block';
                     this.scannerBox.classList.add('scanning');
-                    this.updateStatus('Scanning for QR codes...');
+                    this.updateStatus('Position QR code in the scanner area...');
                     
                     this.scan();
                 } catch (err) {
@@ -992,12 +996,31 @@ html, body {
                 
                 this.video.srcObject = null;
                 this.startBtn.style.display = 'inline-block';
+                this.scanBtn.style.display = 'none';
                 this.stopBtn.style.display = 'none';
-                this.scannerBox.classList.remove('scanning');
+                this.scannerBox.classList.remove('scanning', 'circle-detected', 'qr-detected');
                 this.detectionResult.classList.add('hidden');
                 this.currentDetectedCode = null;
+                this.detectedQRCode = null;
+                this.qrCodeLocked = false;
                 this.scanCooldown = false;
-                this.updateStatus('Scanner stopped. Click "Start Scanner" to begin.');
+                this.lastQRDetectionTime = 0;
+                
+                // Reset scan button styling
+                this.scanBtn.textContent = '🔄 Reset (Double-click)';
+                this.scanBtn.style.backgroundColor = '';
+                this.scanBtn.style.borderColor = '';
+                this.scanBtn.style.color = '';
+                this.scanBtn.classList.remove('qr-ready');
+                
+                // Reset all detection states
+                this.detectionState = 'idle';
+                this.qrProcessingEnabled = false;
+                this.circleDetectionBuffer = [];
+                this.loadingOverlay.classList.remove('active');
+                this.detectionStatus.classList.remove('visible', 'circle', 'qr');
+                
+                this.updateStatus('Camera stopped. Click "Start Camera" to begin.');
                 this.hideMessage();
             }
             
@@ -1008,19 +1031,104 @@ html, body {
                     this.ctx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
                     const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
                     
-                    // Detect shapes in the image
-                    const hasCircle = this.detectCircle(imageData);
-                    const qrCode = this.qrProcessingEnabled ? jsQR(imageData.data, imageData.width, imageData.height) : null;
-                    
-                    this.updateDetectionState(hasCircle, qrCode);
-                    
-                    // Only process QR codes when explicitly enabled and not in cooldown
-                    if (qrCode && this.qrProcessingEnabled && !this.scanCooldown) {
-                        this.processQRCode(qrCode.data);
+                    // Only look for QR codes if none is currently locked
+                    if (!this.qrCodeLocked) {
+                        const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+                        
+                        // Update visual feedback based on detection
+                        this.updateQRDetectionState(qrCode);
+                        
+                        // Store detected QR code and immediately show it
+                        if (qrCode && qrCode.data) {
+                            this.detectedQRCode = qrCode.data;
+                            this.qrCodeLocked = true; // Lock the code so it doesn't flicker
+                            this.currentDetectedCode = qrCode.data; // Store for validation
+                            
+                            // Immediately show the detection result
+                            this.showDetectionResult(qrCode.data);
+                        } else {
+                            this.updateStatus('Position QR code in the scanner area...');
+                        }
                     }
                 }
                 
                 this.animationFrame = requestAnimationFrame(() => this.scan());
+            }
+            
+
+            
+            showDetectionResult(qrData) {
+                // Pause scanning and show detection result immediately
+                this.isScanning = false;
+                if (this.animationFrame) {
+                    cancelAnimationFrame(this.animationFrame);
+                }
+                
+                // Update UI to show detected code
+                this.scannerBox.classList.add('qr-detected');
+                this.updateStatus('Code detected! Choose an action:');
+                
+                // Hide camera controls and show detection result
+                this.scanBtn.style.display = 'none';
+                this.stopBtn.style.display = 'none';
+                
+                // Display the detected code and action buttons
+                this.detectedCodeText.textContent = qrData;
+                this.detectionResult.classList.remove('hidden');
+                this.hideMessage();
+            }
+            
+            resetQRLock() {
+                // Reset the QR code lock to allow detecting new codes
+                this.detectedQRCode = null;
+                this.qrCodeLocked = false;
+                this.currentDetectedCode = null;
+                this.scanCooldown = false;
+                this.lastQRDetectionTime = 0;
+                
+                // Reset detection states
+                this.detectionState = 'idle';
+                this.qrProcessingEnabled = false;
+                this.circleDetectionBuffer = [];
+                
+                // Reset UI elements
+                this.updateStatus('QR code cleared. Position QR code in the scanner area...');
+                this.scannerBox.classList.remove('qr-detected', 'circle-detected');
+                this.scanBtn.textContent = '🔄 Reset (Double-click)';
+                this.scanBtn.style.backgroundColor = '';
+                this.scanBtn.style.borderColor = '';
+                this.scanBtn.style.color = '';
+                this.scanBtn.classList.remove('qr-ready');
+                this.detectionStatus.classList.remove('visible', 'circle', 'qr');
+                this.detectionResult.classList.add('hidden');
+                this.loadingOverlay.classList.remove('active');
+                this.hideMessage();
+                
+                // Resume scanning
+                this.isScanning = true;
+                this.scanBtn.style.display = 'inline-block';
+                this.stopBtn.style.display = 'inline-block';
+                this.scannerBox.classList.add('scanning');
+                
+                // Restart the scanning loop
+                this.scan();
+                
+                // Brief visual feedback
+                this.scanBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.scanBtn.style.transform = '';
+                }, 150);
+            }
+            
+            updateQRDetectionState(qrCode) {
+                // Simple visual feedback for QR code detection
+                if (qrCode) {
+                    this.detectionStatus.textContent = 'QR Code in view';
+                    this.detectionStatus.classList.add('visible', 'qr');
+                    this.detectionStatus.classList.remove('circle');
+                } else {
+                    this.detectionStatus.classList.remove('visible', 'circle', 'qr');
+                }
             }
             
             detectCircle(imageData) {
@@ -1064,13 +1172,13 @@ html, body {
                 
                 // Buffer the detection to smooth out noise
                 this.circleDetectionBuffer.push(circleScore > 0.4);
-                if (this.circleDetectionBuffer.length > 5) {
+                if (this.circleDetectionBuffer.length > 8) {
                     this.circleDetectionBuffer.shift();
                 }
                 
                 // Return true if majority of recent frames detected a circle
                 const circleDetections = this.circleDetectionBuffer.filter(x => x).length;
-                return circleDetections >= 3;
+                return circleDetections >= 5;
             }
             
             detectEdges(data, width, height) {
@@ -1158,48 +1266,11 @@ html, body {
                 }
             }
             
-            processQRCode(qrData) {
-                if (this.scanCooldown) return;
-                
-                this.scanCooldown = true;
-                this.currentDetectedCode = qrData;
-                
-                // Pause scanning and show detection result
-                this.isScanning = false;
-                if (this.animationFrame) {
-                    cancelAnimationFrame(this.animationFrame);
-                }
-                
-                // Display the detected code and action buttons
-                this.detectedCodeText.textContent = qrData;
-                this.detectionResult.classList.remove('hidden');
-                this.hideMessage();
-                this.updateStatus('Code detected! Choose an action:');
-                
-                // Hide scanner controls
-                this.stopBtn.style.display = 'none';
-                this.scannerBox.classList.remove('scanning');
-            }
+
             
             retryScanning() {
-                // Hide detection result
-                this.detectionResult.classList.add('hidden');
-                this.currentDetectedCode = null;
-                this.scanCooldown = false;
-                
-                // Reset detection states
-                this.detectionState = 'idle';
-                this.qrProcessingEnabled = false;
-                this.circleDetectionBuffer = [];
-                
-                // Resume scanning
-                this.isScanning = true;
-                this.stopBtn.style.display = 'inline-block';
-                this.scannerBox.classList.add('scanning');
-                this.updateStatus('Scanning for QR codes...');
-                
-                // Restart the scanning loop
-                this.scan();
+                // Reset everything and resume scanning for new codes
+                this.resetQRLock();
             }
             
             checkCode() {
@@ -1225,16 +1296,20 @@ html, body {
                 
                 // Reset scanning state
                 this.currentDetectedCode = null;
+                this.detectedQRCode = null;
+                this.qrCodeLocked = false;
                 this.scanCooldown = false;
+                this.lastQRDetectionTime = 0;
                 
                 // Show start button to allow new scan
                 this.startBtn.style.display = 'inline-block';
+                this.scanBtn.style.display = 'none';
                 this.stopBtn.style.display = 'none';
                 
                 // Auto-hide message and reset after 3 seconds
                 setTimeout(() => {
                     this.hideMessage();
-                    this.updateStatus('Click "Start Scanner" to scan another code');
+                    this.updateStatus('Click "Start Camera" to scan another code');
                 }, 3000);
             }
             
